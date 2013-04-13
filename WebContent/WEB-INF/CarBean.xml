@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+ 	<bean id="carAction" class="action.CarAction">
+		<property name="carBo" ref="carBo" />	
+	</bean>
+ 
+	<bean id="carBo" class="bo.CarBoImpl" >
+		<property name="carDao" ref="carDao" />
+	</bean>
+ 
+ 	<bean id="carServlet" class="servlet.AjaxServlet" >
+		<property name="carDao" ref="carDao" />
+	</bean>
+ 
+   	<bean id="carDao" class="dao.CarDaoImpl" >
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+ 
+</beans>

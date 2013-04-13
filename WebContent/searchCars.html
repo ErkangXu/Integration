@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Search cars</title>
+	<script src="dojo/dojo.js"
+      data-dojo-config="async: true">
+	</script>
+	<script>
+	  function ajaxcall() {
+		  document.getElementById("grid").innerHTML="";
+		  require(["dojo/dom","dojo/request","dojo/domReady!"],function(dom,request){
+		     var Model = dom.byId("model").value.toString();
+		     var Mileage = dom.byId("mileage").value.toString();
+		     
+	         // Request the JSON data from the server
+	         request.get("AjaxServlet", {
+	        	 query:{
+	        		 model: Model,
+	        		 mileage: Mileage
+	        	 },
+	             // Parse data from JSON to a JavaScript object
+	             handleAs: "json",
+	             preventCache: true
+	         }).then(function(data){
+	        	 require(["dojo/store/Memory","dojo/_base/declare", 
+   		           "dgrid/Grid", "dgrid/extensions/Pagination"],
+ 		           function(Memory, declare, Grid, Pagination){
+ 			         var dataStore = new Memory({data:data, idProperty: "vin"});
+ 			         var grid = new (declare([Grid, Pagination]))({
+ 						 store: dataStore,
+ 						 columns: {
+ 							vin: "Vin number",
+ 							model: "Model",
+ 							make: "Make",
+ 							mileage: "Mileage",
+ 							price: "Price",
+ 							sellerName: "Seller Name",
+ 							sellerPhoneNumber: "Seller Phone"
+ 						 },
+ 						 rowsPerPage: 10,
+ 						 pagingLinks: 1,
+ 						 pagingTextBox:true,
+ 						 firstLastArrows:true,
+ 						 pageSizeOptions: [10, 15, 25]
+ 	             }, "grid");
+ 			     grid.startup();
+	                    		  });}); 
+	         });
+	  } 
+</script>
+</head>
+<body>
+	<form>
+		Desired model:<input type="text" id="model"/>
+		Mileage is less than<input type="text" id="mileage"/>
+		<input type="button" value="Search" onclick="ajaxcall()">
+	</form>
+	<div id="grid"></div>
+	<script type="text/javascript">ajaxcall();</script>
+</body>
+</html>

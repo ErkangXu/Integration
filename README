@@ -1,0 +1,3 @@
+This is a simple car trading website. I used HTML/Javascript/Dojo Toolkit/Spring/Hibernate/Struts 2/JSP/Servlet in it.
+I also host the web site on Amazon Web Service. The link is http://where2tradecar.elasticbeanstalk.com/
+Now there is no user register and logging function. This will be the future work.
